@@ -50,4 +50,5 @@ app.*.map.json
 *.iml
 .metadata
 
+.android/gradle
 .android/.gradle
