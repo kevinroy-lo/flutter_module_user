@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_user_info/color_util.dart';
+import 'package:flutter_user_info/util/color_util.dart';
 import 'package:flutter_user_info/component/item_field.dart';
 import 'package:flutter_user_info/util/colors.dart';
 
-import 'component/fonts.dart';
+import 'util/fonts.dart';
 
 void main() => runApp(const UserMainWidget());
 
@@ -41,6 +41,8 @@ class _UserHomeWidgetState extends State<UserHomeWidget> {
   String _bYear = "", _bMonth = "", _bDay = "";
   final TextEditingController _phoneTextEditController =
       TextEditingController();
+
+  final _foucsNode = FocusNode();
 
   void _showPickerSex(context) {
     showModalBottomSheet(
@@ -154,7 +156,10 @@ class _UserHomeWidgetState extends State<UserHomeWidget> {
             return Column(
               children: [
                 RowItemField(
-                  onTap: () {},
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(_foucsNode);
+                    _phoneTextEditController.clear();
+                  },
                   label: "头像1",
                   rightWidget: const CircleAvatar(
                     radius: 30,
@@ -162,26 +167,46 @@ class _UserHomeWidgetState extends State<UserHomeWidget> {
                   ),
                 ),
                 RowItemField(
-                  onTap: () {},
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(_foucsNode);
+                  },
                   label: "昵称",
-                  rightWidget: Text("昵称"),
-                ),
-                const RowItemField(
-                  needRigthArrow: false,
-                  label: "手机号码",
-                  // rightWidget: TextField(
-                  //   obscureText: true,
-                  // ),
+                  rightWidget: const Text(
+                    "昵称",
+                    style: t14black,
+                  ),
                 ),
                 RowItemField(
+                    needRigthArrow: false,
+                    label: "手机号码",
+                    rightWidget: SizedBox(
+                        width: 200,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.done,
+                          style: t14black,
+                          controller: _phoneTextEditController,
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.all(0),
+                            border: InputBorder.none,
+                          ),
+                          textAlign: TextAlign.end,
+                        ))),
+                RowItemField(
                   onTap: () {
+                    FocusScope.of(context).requestFocus(_foucsNode);
                     _showPickerSex(context);
                   },
                   label: "性别",
-                  rightWidget: Text(sex),
+                  rightWidget: Text(
+                    sex,
+                    style: t14black,
+                  ),
                 ),
                 RowItemField(
                   onTap: () {
+                    FocusScope.of(context).requestFocus(_foucsNode);
                     _pickBirthday();
                   },
                   label: "出生日期",
@@ -191,7 +216,10 @@ class _UserHomeWidgetState extends State<UserHomeWidget> {
                   height: 10,
                   color: Colors.transparent,
                 ),
-                const RowItemField(
+                RowItemField(
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(_foucsNode);
+                  },
                   label: "登录密码",
                 ),
               ],
