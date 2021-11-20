@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_user_info/component/top_bar.dart';
 import 'package:flutter_user_info/util/colors.dart';

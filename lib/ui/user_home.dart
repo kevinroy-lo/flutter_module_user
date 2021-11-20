@@ -1,12 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_user_info/component/item_field.dart';
 import 'package:flutter_user_info/component/top_bar.dart';
 import 'package:flutter_user_info/router/router.dart';
+import 'package:flutter_user_info/util/color_util.dart';
 import 'package:flutter_user_info/util/colors.dart';
 import 'package:flutter_user_info/util/fonts.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class UserHomePage extends StatefulWidget {
   final String title = "个人资料";
@@ -22,6 +22,7 @@ class _UserHomePageState extends State<UserHomePage> {
   bool showPickSexDialog = true;
   String sex = "";
   String _nickName = "";
+  AssetEntity? _userHeader;
   String _bYear = "", _bMonth = "", _bDay = "";
   final TextEditingController _phoneTextEditController =
       TextEditingController();
@@ -113,11 +114,30 @@ class _UserHomePageState extends State<UserHomePage> {
             RowItemField(
               onTap: () {
                 FocusScope.of(context).requestFocus(_foucsNode);
-                _phoneTextEditController.clear();
+                // Routers.push(Routers.userPhotoPick, context);
+                AssetPicker.permissionCheck().then((value) => {
+                      if (value.isAuth)
+                        {
+                          AssetPicker.pickAssets(context,
+                              maxAssets: 1,
+                              pickerTheme: ThemeData(
+                                brightness: Brightness.light,
+                                primarySwatch: createMaterialColor(
+                                    const Color(0xFFFF7A67)),
+                              )).then((value) => {
+                                setState(() {
+                                  _userHeader = value!.first;
+                                })
+                              })
+                        }
+                    });
               },
-              label: "头像1",
-              rightWidget: const CircleAvatar(
+              label: "头像",
+              rightWidget: CircleAvatar(
                 radius: 30,
+                backgroundImage: _userHeader == null
+                    ? null
+                    : AssetEntityImageProvider(_userHeader!),
                 foregroundColor: Colors.amber,
               ),
             ),

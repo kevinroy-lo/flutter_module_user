@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_user_info/ui/user_home.dart';
 import 'package:flutter_user_info/ui/user_name.dart';
+import 'package:flutter_user_info/ui/user_photo_pick.dart';
 
 class Routers {
   static const userInfoMain = "/user_info_main";
   static const userInfoSetNick = "/user_info_nick";
+  static const userPhotoPick = "/user_photo_pick";
 
   static Map<String, Function> routes = {
     userInfoMain: (context, {params}) => const UserHomePage(),
